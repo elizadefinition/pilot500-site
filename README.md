@@ -61,6 +61,7 @@ Styles are in `theme/pilot500/assets/css/site.css`, which is organised by layout
 
 ## Before launch
 
+- **7 Keys profile chart:** the scores (and the benchmark of 63) in the keys panel are illustrative. Set them in `KEY_SCORES` and `KEY_BENCH` in `tools/build.py`, or edit the pattern directly.
 - **"Ask your results anything."** is new placeholder copy, written to replace "Subheading in here". It needs client approval.
 - The form is a front-end demo only. To make it work, connect a form plugin (Gravity Forms, WPForms or Contact Form 7) or a Calendly embed in the **Book a demo** pattern.
 - **Testimonials:** two are verbatim and four are paraphrased (per the client's own note). They need approved wording.

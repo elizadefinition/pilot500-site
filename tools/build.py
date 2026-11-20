@@ -392,6 +392,30 @@ def ring_svg():
             f'<text class="lab" x="200" y="402">Leadership &amp; Management</text></svg>')
 
 
+KEY_SCORES = [68, 61, 57, 72, 49, 64, 41]   # illustrative profile, out of 100
+KEY_BENCH = 63                              # illustrative Pilot500 benchmark
+
+
+def keys_panel():
+    h = lambda v: round((v - 20) / 60 * 100, 1)    # chart axis runs 20–80 so differences read clearly
+    bars = ''.join(
+        f'<button type="button" class="p5-kbar" data-s="{v}" style="--v:{h(v)}%" aria-label="Key {i + 1}: {v} out of 100" tabindex="-1">'
+        f'<span class="p5-kbar__c"><i></i></span><span class="p5-kbar__n">{i + 1}</span></button>' for i, v in enumerate(KEY_SCORES))
+    return f'''
+<div class="p5-panel is-dark p5-keys" data-p5="keys" data-for="keys-list" data-bench="{KEY_BENCH}">
+  <div class="p5-panel__bar"><span class="p5-keys__t">7 Management Keys<sup>®</sup></span><span class="p5-keys__m">Pilot500 method</span></div>
+  <div class="p5-keys__ring">{ring_svg()}</div>
+  <div class="p5-keys__prof">
+    <div class="p5-keys__read">
+      <div><span class="p5-keys__k">Your profile across the 7 keys</span><span class="p5-keys__gap" data-gap></span></div>
+      <p class="p5-keys__score"><b data-score>49</b><small>/100</small></p>
+    </div>
+    <div class="p5-kbars">{bars}<span class="p5-kbars__bench" style="--b:{h(KEY_BENCH)}"><em>Benchmark {KEY_BENCH}</em></span></div>
+    <p class="p5-keys__note">Illustrative example · each key scored out of 100 against the Pilot500 benchmark</p>
+  </div>
+</div>'''
+
+
 def keys():
     items = ''.join(pick(f'{i + 1:02d}', name, f'<p>{d}</p><p class="p5-ask"><b>Ask Pilot500 Intelligence</b>“{q}”</p>',
                          f' data-name="{name}"') for i, (name, d, q) in enumerate(KEYS))
@@ -403,8 +427,8 @@ def keys():
                      'recommendation is organized around them.', 'p5-lede'),
                 html(f'<ul class="p5-picks" id="keys-list" data-p5="picks" data-auto="6500" data-start="4" data-hover>{items}</ul>'),
             ], 'p5-split__text'),
-            html(f'<div class="p5-panel is-dark p5-keys" data-p5="keys" data-for="keys-list">{ring_svg()}</div>'),
-        ], 'p5-split is-flip'),
+            html(keys_panel()),
+        ], 'p5-split is-flip is-stretch'),
     ])
 
 

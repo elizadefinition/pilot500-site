@@ -167,7 +167,11 @@
           clearTimeout(ht); ht = setTimeout(function () { set(k, true); }, 90);
         });
         li.addEventListener('mouseleave', function () { clearTimeout(ht); });
-        var b = $('.p5-pick__btn', li); if (b) b.addEventListener('focus', function () { set(k, true); });
+        var b = $('.p5-pick__btn', li);
+        if (b) {
+          b.addEventListener('mousedown', function (e) { e.preventDefault(); });
+          b.addEventListener('focus', function () { set(k, true); });
+        }
       });
     }
     list.addEventListener('mouseenter', function () { hover = true; });
@@ -196,7 +200,16 @@
   $$('[data-p5="keys"]').forEach(function (ring) {
     var p = picks[ring.getAttribute('data-for')]; if (!p) return;
     var segs = $$('.seg', ring), nums = $$('.num', ring), big = $('.big', ring), lab = $('.lab', ring);
+    var bars = $$('.p5-kbar', ring), score = $('[data-score]', ring), gap = $('[data-gap]', ring), bench = +ring.getAttribute('data-bench') || 0;
+    once(ring, function () { ring.classList.add('is-in'); }, 0.3);
     p.on(function (i, li) {
+      if (bars[i]) {
+        var v = +bars[i].getAttribute('data-s'), d = v - bench;
+        bars.forEach(function (b, k) { b.classList.toggle('is-on', k === i); });
+        score.textContent = v;
+        gap.textContent = 'Key ' + ('0' + (i + 1)).slice(-2) + ' · ' + (d === 0 ? 'level with' : Math.abs(d) + ' pts ' + (d < 0 ? 'below' : 'above')) + ' benchmark';
+        gap.classList.toggle('is-low', d < 0);
+      }
       segs.forEach(function (s, k) { s.classList.toggle('is-on', k === i); });
       nums.forEach(function (s, k) { s.classList.toggle('is-on', k === i); });
       big.textContent = ('0' + (i + 1)).slice(-2);
@@ -205,6 +218,8 @@
     segs.forEach(function (s, k) {
       s.addEventListener('click', function () { p.set(k, true); });
       s.addEventListener('mouseenter', function () { p.set(k, true); });
+      if (bars[k]) { bars[k].addEventListener('mouseenter', function () { p.set(k, true); }); bars[k].addEventListener('click', function () { p.set(k, true); }); }
+      s.addEventListener('mousedown', function (e) { e.preventDefault(); });
       s.addEventListener('focus', function () { p.set(k, true); });
       s.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); p.set(k, true); } });
     });
