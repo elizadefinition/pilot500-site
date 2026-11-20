@@ -33,8 +33,81 @@
     $$('.p5-nav a', hd).forEach(function (a) { a.addEventListener('click', function () { hd.classList.remove('is-open'); }); });
   }
 
+  /* Scroll motion --------------------------------------------------------- *
+   * Added at runtime only, so the WordPress block markup never changes.      */
+  // 1. Section headings rise word by word (text nodes only; links, <br>, <sup> and spans are kept)
+  function splitWords(el) {
+    var i = 0;
+    (function walk(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var parts = n.textContent.split(/(\s+)/), frag = document.createDocumentFragment();
+          parts.forEach(function (t) {
+            if (!t) return;
+            if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(t)); return; }
+            var w = document.createElement('span'), wi = document.createElement('span');
+            w.className = 'p5-w8'; wi.className = 'p5-w8i'; wi.style.setProperty('--i', i++);
+            wi.textContent = t; w.appendChild(wi); frag.appendChild(w);
+          });
+          n.parentNode.replaceChild(frag, n);
+        } else if (n.nodeType === 1 && n.tagName !== 'BR') walk(n);
+      });
+    })(el);
+    el.classList.add('p5-words');
+    return i;
+  }
+  if (!RM) {
+    $$('.p5-h1,.p5-band .p5-h2').forEach(function (h) {
+      var n = splitWords(h);
+      // what follows the heading in its column waits for the words
+      var col = h.parentNode, d = Math.min(n, 10) * 0.045 + 0.15;
+      $$(':scope > .p5-lede, :scope > .wp-block-buttons, :scope > .p5-picks, :scope > .p5-ring, :scope > .p5-ticks, :scope > .p5-note', col).forEach(function (el, k) {
+        el.classList.add('p5-reveal'); el.style.setProperty('--d', (d + k * 0.08).toFixed(2) + 's');
+      });
+    });
+    // 2. Side panels unmask as they arrive
+    $$('.p5-split > .p5-panel, .p5-stats, .p5-contact > .p5-form, .p5-trust').forEach(function (el) { el.classList.add('p5-rise'); });
+  }
+  $$('.p5-words,.p5-rise').forEach(function (el) { once(el, function () { el.classList.add('is-in'); }, 0.15); });
+
+  // 3. Big figures count up when they come into view ("40%", "+1.9 pts")
+  $$('.p5-fig__n').forEach(function (el) {
+    var m = el.textContent.match(/^([^\d]*)([\d.,]+)(.*)$/); if (!m || RM) return;
+    var end = parseFloat(m[2].replace(/,/g, '')), dec = (m[2].split('.')[1] || '').length;
+    var show = function (v) { el.textContent = m[1] + v.toFixed(dec) + m[3]; };
+    show(0);
+    once(el, function () {
+      var t0 = performance.now();
+      (function tick(t) { var p = Math.min(1, (t - t0) / 1400); show(end * (1 - Math.pow(1 - p, 4))); if (p < 1) requestAnimationFrame(tick); })(t0);
+    }, 0.6);
+  });
+
+  // 4. Light parallax: a few pixels on the hero stats and the side panels, desktop only
+  var px = RM ? [] : $$('.p5-stats, .p5-split > .p5-panel');
+  // 5. Scroll progress line in the header + current section in the nav
+  var navLinks = $$('.p5-nav a[href^="#"]'), targets = navLinks.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  var ticking = false;
+  function onScrollFrame() {
+    ticking = false;
+    var vh = window.innerHeight, max = document.documentElement.scrollHeight - vh;
+    root.style.setProperty('--p5-scroll', max > 0 ? (window.scrollY / max).toFixed(4) : 0);
+    if (window.innerWidth > 1040) px.forEach(function (el) {
+      var r = el.getBoundingClientRect(); if (r.bottom < -100 || r.top > vh + 100) return;
+      var y = ((r.top + r.height / 2) - vh / 2) * -0.04;
+      el.style.translate = '0 ' + Math.max(-14, Math.min(14, y)).toFixed(1) + 'px';
+    }); else px.forEach(function (el) { el.style.translate = ''; });
+    var cur = -1;
+    targets.forEach(function (t, k) { if (t && t.getBoundingClientRect().top < vh * 0.4) cur = k; });
+    navLinks.forEach(function (a, k) { a.parentNode.classList.toggle('is-current', k === cur); });
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScrollFrame); } }, { passive: true });
+  window.addEventListener('resize', onScrollFrame);
+  onScrollFrame();
+
   /* Reveal + "in view" flags -------------------------------------------- */
-  $$('.p5-reveal,[data-in]').forEach(function (el) { once(el, function () { el.classList.add('is-in'); }, 0.2); });
+  $$('.p5-reveal,[data-in]').forEach(function (el) {
+    once(el, function () { el.classList.add('is-in'); setTimeout(function () { el.classList.add('is-done'); }, 1600); }, 0.2);
+  });
 
   /* Count-up numbers ------------------------------------------------------ */
   $$('[data-count]').forEach(function (el) {

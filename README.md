@@ -38,6 +38,17 @@ Copy, headings and buttons are normal editable blocks. The interactive visuals a
 - With `prefers-reduced-motion`, there is no autoplay. Each visual shows its finished state.
 - The hero film has moved from the hero to **How it works**. It now plays as a contained six-step story beside the week steps, and has a Replay button.
 
+## Scroll animations
+
+These are all added by `site.js` when the page loads. The block markup stays the same, so editors never see extra wrappers.
+
+- **Headings:** section headings rise word by word as they enter the viewport. The intro text, buttons and lists below each heading follow just after.
+- **Side panels:** the hero stats, chat, keys ring, org chart and film unmask as they arrive.
+- **Big figures:** 40%, +1.9 pts and +4.7 pts count up.
+- **Parallax:** on desktop only, the stats panel and side panels drift slightly as you scroll, by no more than 14px.
+- **Header:** a blue progress line shows how far down the page you are, and the nav underlines the section you are in.
+- **Reduced motion:** all of this is switched off for visitors who prefer reduced motion.
+
 ## Editing the source
 
 `tools/build.py` generates the patterns, template parts, templates, preview and zip from one place:
