@@ -401,7 +401,7 @@ def keys():
                 heading('Behind every answer: the 7&nbsp;Management Keys<sup>®</sup>.', 2, 'p5-h2'),
                 para('Seven areas that decide how well a field organization executes. Every result, benchmark and '
                      'recommendation is organized around them.', 'p5-lede'),
-                html(f'<ul class="p5-picks" id="keys-list" data-p5="picks" data-auto="6500" data-start="4">{items}</ul>'),
+                html(f'<ul class="p5-picks" id="keys-list" data-p5="picks" data-auto="6500" data-start="4" data-hover>{items}</ul>'),
             ], 'p5-split__text'),
             html(f'<div class="p5-panel is-dark p5-keys" data-p5="keys" data-for="keys-list">{ring_svg()}</div>'),
         ], 'p5-split is-flip'),

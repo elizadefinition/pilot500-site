@@ -156,6 +156,20 @@
     items.forEach(function (li, k) {
       var b = $('.p5-pick__btn', li); if (b) b.addEventListener('click', function () { set(k, true); });
     });
+    // data-hover: select on hover (mouse only; touch and keyboard still tap/focus to select).
+    // Uses mousemove with a short intent delay so the accordion opening and closing
+    // under a still pointer never triggers another change.
+    if (list.hasAttribute('data-hover')) {
+      var ht = 0;
+      items.forEach(function (li, k) {
+        li.addEventListener('mousemove', function (e) {
+          if (e.pointerType === 'touch' || k === cur) return;
+          clearTimeout(ht); ht = setTimeout(function () { set(k, true); }, 90);
+        });
+        li.addEventListener('mouseleave', function () { clearTimeout(ht); });
+        var b = $('.p5-pick__btn', li); if (b) b.addEventListener('focus', function () { set(k, true); });
+      });
+    }
     list.addEventListener('mouseenter', function () { hover = true; });
     list.addEventListener('mouseleave', function () { hover = false; t0 = performance.now() - (parseFloat(items[cur].style.getPropertyValue('--p')) || 0) * auto; });
     var start = +list.getAttribute('data-start') || 0;
@@ -190,6 +204,8 @@
     });
     segs.forEach(function (s, k) {
       s.addEventListener('click', function () { p.set(k, true); });
+      s.addEventListener('mouseenter', function () { p.set(k, true); });
+      s.addEventListener('focus', function () { p.set(k, true); });
       s.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); p.set(k, true); } });
     });
   });

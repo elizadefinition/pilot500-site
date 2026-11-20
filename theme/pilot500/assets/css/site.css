@@ -68,6 +68,7 @@ body.p5{margin:0;}
 .p5 :where(ul,ol){margin:0;padding:0}
 .p5 :where(button){font:inherit;color:inherit}
 .p5 :focus-visible{outline:2px solid var(--p5-blue);outline-offset:3px;border-radius:4px}
+.p5 :focus:not(:focus-visible){outline:none}
 .p5-vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 .p5-w{width:100%;max-width:calc(var(--p5-w) + var(--p5-gut)*2);margin-inline:auto;padding-inline:var(--p5-gut)}
@@ -267,7 +268,9 @@ body.p5{margin:0;}
 .p5-pick{border-bottom:1px solid var(--p5-line);position:relative}
 .p5-pick__btn{all:unset;box-sizing:border-box;display:flex;align-items:baseline;gap:14px;width:100%;padding:14px 0;cursor:pointer;font:500 15px/1.35 var(--p5-fd);color:var(--p5-muted);transition:color .25s}
 .p5-pick__btn:hover{color:var(--p5-ink)}
+.p5-pick__btn:focus{outline:none}
 .p5-pick__btn:focus-visible{outline:2px solid var(--p5-blue);outline-offset:2px}
+[data-hover] .p5-pick__btn{cursor:default}
 .p5-pick__n{font:500 11px/1 var(--p5-ff);color:var(--p5-faint);min-width:20px;font-variant-numeric:tabular-nums}
 .p5-pick__n:empty{display:none}
 .p5-roles .p5-pick__more>div{padding-left:0}
@@ -411,6 +414,9 @@ body.p5{margin:0;}
 .p5-keys svg{width:100%;max-width:400px;height:auto;overflow:hidden}
 .p5-keys .seg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:26;cursor:pointer;transition:stroke .35s}
 .p5-keys .seg:hover{stroke:rgba(255,255,255,.24)}
+.p5-keys .seg:focus{outline:none}
+.p5-keys .seg:focus-visible{stroke:rgba(255,255,255,.4)}
+.p5-keys .seg.is-on:focus-visible{stroke:#7FAEE3}
 .p5-keys .seg.is-on{stroke:var(--p5-blue-l)}
 .p5-keys .num{font:500 12px var(--p5-fd);fill:rgba(255,255,255,.45);text-anchor:middle;dominant-baseline:middle;transition:fill .3s;pointer-events:none}
 .p5-keys .num.is-on{fill:#fff}
