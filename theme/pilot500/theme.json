@@ -1,0 +1,63 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": false,
+		"layout": { "contentSize": "1120px", "wideSize": "1200px" },
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"palette": [
+				{ "slug": "blue", "name": "Pilot500 blue", "color": "#134A83" },
+				{ "slug": "blue-dark", "name": "Blue (hover)", "color": "#0D3A69" },
+				{ "slug": "blue-light", "name": "Blue on navy", "color": "#4C8AD0" },
+				{ "slug": "blue-tint", "name": "Blue tint", "color": "#EDF2F8" },
+				{ "slug": "ink", "name": "Ink", "color": "#0E1116" },
+				{ "slug": "muted", "name": "Muted text", "color": "#5A6371" },
+				{ "slug": "line", "name": "Line", "color": "#E3E7ED" },
+				{ "slug": "background-alt", "name": "Alt background", "color": "#F3F5F9" },
+				{ "slug": "navy", "name": "Navy", "color": "#0A1A2C" },
+				{ "slug": "white", "name": "White", "color": "#FFFFFF" }
+			]
+		},
+		"typography": {
+			"defaultFontSizes": false,
+			"fluid": true,
+			"fontFamilies": [
+				{
+					"slug": "display", "name": "Bai Jamjuree",
+					"fontFamily": "'Bai Jamjuree', 'IBM Plex Sans', Arial, sans-serif",
+					"fontFace": [
+						{ "fontFamily": "Bai Jamjuree", "fontWeight": "300", "fontStyle": "normal", "fontDisplay": "swap", "src": [ "file:./assets/fonts/BaiJamjuree-300.woff2" ] },
+						{ "fontFamily": "Bai Jamjuree", "fontWeight": "400", "fontStyle": "normal", "fontDisplay": "swap", "src": [ "file:./assets/fonts/BaiJamjuree-400.woff2" ] },
+						{ "fontFamily": "Bai Jamjuree", "fontWeight": "500", "fontStyle": "normal", "fontDisplay": "swap", "src": [ "file:./assets/fonts/BaiJamjuree-500.woff2" ] },
+						{ "fontFamily": "Bai Jamjuree", "fontWeight": "600", "fontStyle": "normal", "fontDisplay": "swap", "src": [ "file:./assets/fonts/BaiJamjuree-600.woff2" ] }
+					]
+				},
+				{
+					"slug": "body", "name": "IBM Plex Sans",
+					"fontFamily": "'IBM Plex Sans', Arial, Helvetica, sans-serif",
+					"fontFace": [
+						{ "fontFamily": "IBM Plex Sans", "fontWeight": "400", "fontStyle": "normal", "fontDisplay": "swap", "src": [ "file:./assets/fonts/IBMPlexSans-400.woff2" ] },
+						{ "fontFamily": "IBM Plex Sans", "fontWeight": "500", "fontStyle": "normal", "fontDisplay": "swap", "src": [ "file:./assets/fonts/IBMPlexSans-500.woff2" ] },
+						{ "fontFamily": "IBM Plex Sans", "fontWeight": "600", "fontStyle": "normal", "fontDisplay": "swap", "src": [ "file:./assets/fonts/IBMPlexSans-600.woff2" ] }
+					]
+				}
+			]
+		},
+		"spacing": { "blockGap": false, "padding": false, "margin": false }
+	},
+	"styles": {
+		"color": { "background": "var(--wp--preset--color--white)", "text": "var(--wp--preset--color--ink)" },
+		"typography": { "fontFamily": "var(--wp--preset--font-family--body)" },
+		"spacing": { "blockGap": "0px", "padding": { "top": "0", "bottom": "0", "left": "0", "right": "0" } },
+		"elements": {
+			"heading": { "typography": { "fontFamily": "var(--wp--preset--font-family--display)", "fontWeight": "500" } },
+			"link": { "color": { "text": "inherit" } }
+		}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Header", "area": "header" },
+		{ "name": "footer", "title": "Footer", "area": "footer" }
+	]
+}
